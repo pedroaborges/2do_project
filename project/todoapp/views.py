@@ -11,13 +11,15 @@ from django.contrib import messages
 def home(request):
     if request.method == 'POST':
         task = request.POST.get('task')
-    
+        
         if task:
             new_todo = todo(user=request.user, todo_name=task)
             new_todo.save()
         else:
-            
             messages.error(request, 'O nome da tarefa não pode ser vazio.')
+        
+        # Adicione este redirecionamento para evitar duplicação
+        return redirect('home-page')
 
     all_todos = todo.objects.filter(user=request.user)
     context = {
@@ -73,8 +75,10 @@ def LogoutView(request):
 
 @login_required
 def delete_task(request, name):
-    get_todo = todo.objects.get(user=request.user, todo_name=name)
-    get_todo.delete()
+    todo.objects.filter(user=request.user, todo_name=name).delete()
+    
+    messages.success(request, 'Tarefa(s) excluída(s) com sucesso!')
+    
     return redirect('home-page')
 
 @login_required
