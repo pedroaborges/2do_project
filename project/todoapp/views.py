@@ -16,7 +16,7 @@ def home(request):
             new_todo = todo(user=request.user, todo_name=task)
             new_todo.save()
         else:
-            messages.error(request, 'O nome da tarefa não pode ser vazio.')
+            messages.error(request, ' ')
         
         # Adicione este redirecionamento para evitar duplicação
         return redirect('home-page')
@@ -77,7 +77,7 @@ def LogoutView(request):
 def delete_task(request, name):
     todo.objects.filter(user=request.user, todo_name=name).delete()
     
-    messages.success(request, 'Tarefa(s) excluída(s) com sucesso!')
+    #messages.success(request, 'Tarefa(s) excluída(s) com sucesso!')
     
     return redirect('home-page')
 
