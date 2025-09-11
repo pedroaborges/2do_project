@@ -1,0 +1,28 @@
+body {
+  background-color: #2f2f3d; /* fundo escuro */
+}
+
+#login-card {
+  background-color: #7d4f9e; /* roxo do card */
+  border-radius: 10px;
+}
+
+#btn-login {
+  background-color: #4b2c61; /* botão roxo escuro */
+  color: #fff;
+  font-weight: bold;
+}
+
+#btn-login:hover {
+  background-color: #3a214e;
+}
+
+.form-control {
+  background-color: #d9a9e6; /* input roxo claro */
+  border: none;
+  color: #2f2f3d;
+}
+
+.form-control::placeholder {
+  color: #4b2c61;
+}

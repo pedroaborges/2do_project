@@ -7,5 +7,5 @@ urlpatterns = [
     path('login/', views.loginpage, name='login'),
     path('logout/', views.LogoutView, name='logout'),
     path('delete-task/<str:name>/', views.delete_task, name='delete'),
-    path('update/<str:name>/', views.Update, name='update'),
+    path('update/<int:id>/', views.Update, name='update'),
 ]

@@ -82,10 +82,8 @@ def delete_task(request, name):
     return redirect('home-page')
 
 @login_required
-def Update(request,name):
-    get_todo = todo.objects.get(user=request.user, todo_name=name)
+def Update(request,id):
+    get_todo = todo.objects.get(id=id)
     get_todo.status = True
     get_todo.save()
     return redirect('home-page')
-
-
