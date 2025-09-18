@@ -87,3 +87,4 @@ def Update(request,id):
     get_todo.status = True
     get_todo.save()
     return redirect('home-page')
+

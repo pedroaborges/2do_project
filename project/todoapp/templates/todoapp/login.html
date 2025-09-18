@@ -1,162 +1,87 @@
+{% load static %}
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com-->
-<html lang="en" dir="ltr">
-  <head>
-
+<html lang="pt-br" dir="ltr">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - 2DO</title>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Paleta de Cores
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'dark-purple': '#2C2A4A',     
+              'card-purple': '#4F467B',     
+              'light-purple': '#BEAEE2',    
+              'input-purple': '#E1D4E3',     
+              'text-primary': '#FFFFFF',     
+              'text-secondary': '#D1C4E9',   
+              'text-input': '#2C2A4A',       
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <title>Login</title>
-   </head>
-<body>
-  <div class="wrapper">
-    <h2>Login</h2><br>
+</head>
+<body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-sm">
+    <img src="{% static "img/lobo.png" %}" alt="Logo" class="mx-auto h-24 w-auto mb-8">
+
+    <h2 class="text-center text-3xl font-bold tracking-tight text-text-primary mb-4">
+      Login
+    </h2>
 
     {% if messages %}
-      {% for message in messages %}
-        <h2 style="color: #b22222;">{{message}}</h2>
-      {% endfor %}
+      <div class="bg-red-500/20 text-red-300 text-center p-3 rounded-lg mb-6 text-sm">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
     {% endif %}
-    
-    <form action="#" method="POST">
+
+    <form method="POST" class="space-y-6">
       {% csrf_token %}
-      <div class="input-box">
-        <input type="text" placeholder="Nome de usuário" required name="uname">
+      
+      <div>
+        <input type="text" placeholder="Nome de usuário" required name="uname"
+               class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
       </div>
-      <div class="input-box">
-        <input type="password" placeholder="Senha" required name="pass">
+      
+      <div>
+        <input type="password" placeholder="Senha" required name="pass"
+               class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
       </div>
-      <div class="policy">
-      </div>
-      <div class="input-box button">
-        <input type="Submit" value="Login">
-      </div>
-      <div class="text">
-        <h3>Não tem uma conta ainda? <a href="{% url 'register' %}">Registrar agora</a></h3>
-      </div>
-      <div class="text">
-        <h3>Esqueceu sua senha? <a href="#">Nova senha</a></h3>
+      
+      <div>
+        <button type="submit"
+                class="w-full bg-light-purple text-dark-purple font-bold py-3 px-4 rounded-lg hover:opacity-90 transition">
+          Continuar
+        </button>
       </div>
     </form>
+
+    <div class="text-center mt-6 space-y-2">
+      <p class="text-sm text-text-secondary">
+        Não tem uma conta ainda?
+        <a href="{% url 'register' %}" class="font-semibold text-light-purple hover:text-white transition">Registrar agora</a>
+      </p>
+      <p class="text-sm text-text-secondary">
+        Esqueceu sua senha?
+        <a href="#" class="font-semibold text-light-purple hover:text-white transition">Nova senha</a>
+      </p>
+    </div>
   </div>
+
 </body>
-
-<style>
-  @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-body {
-  min-height: 100vh;
-  background: #454753;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.logo {
-  width: 140px;
-  margin-bottom: 30px;
-}
-.wrapper {
-  background: #9b7bbd;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.wrapper h2 {
-  color: #fff;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  text-align: center;
-}
-.wrapper h2::before{
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 28px;
-  border-radius: 12px;
-  background: #4070f4;
-}
-.wrapper form{
-  margin-top: 30px;
-}
-.wrapper form .input-box{
-  height: 52px;
-  margin: 18px 0;
-}
-.input-box input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: #f8d6e0;
-  color: #a07bbd;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-.input-box input::placeholder {
-  color: #a07bbd;
-  opacity: 1;
-}
-.input-box.button input {
-  background: #45375a;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.2s;
-}
-form .policy{
-  display: flex;
-  align-items: center;
-}
-form h3{
-  color: #707070;
-  font-size: 14px;
-  font-weight: 500;
-  margin-left: 10px;
-}
-.input-box.button input{
-  color: #fff;
-  letter-spacing: 1px;
-  border: none;
-  background: #4070f4;
-  cursor: pointer;
-}
-.input-box.button input:hover {
-  background: #2d2340;
-}
-.text h3 {
-  color: #f8d6e0;
-  font-size: 13px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-.text h3 a {
-  color: #45375a;
-  text-decoration: underline;
-  font-weight: bold;
-}
-form .text h3 a:hover{
-  text-decoration: underline;
-}
-
-</style>
 </html>

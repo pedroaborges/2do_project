@@ -1,150 +1,153 @@
 {% load static %}
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
+    <title>2DO - Suas Tarefas</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Paleta de Cores do Figma
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'dark-purple': '#2C2A4A',      
+              'card-purple': '#4F467B',      
+              'light-purple': '#BEAEE2',     
+              'input-purple': '#E1D4E3',     
+              'text-primary': '#FFFFFF',     
+              'text-secondary': '#D1C4E9',  
+              'text-input': '#2C2A4A',       
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
-          </ul>
+  </head>
+  <body class="bg-dark-purple font-sans antialiased">
+
+    <div class="container mx-auto px-4 py-6">
+
+      <header class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-text-primary font-bold text-2xl">Agosto, 8</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="text-text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+          <button class="text-text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="bg-card-purple p-5 rounded-xl shadow-lg flex items-center space-x-4 mb-8">
+        <div class="flex-shrink-0">
+          <img src="{% static "img/lobo.png" %}" alt="Logo" class="w-16 h-16">
+        </div>
+        <div class="w-full">
+          <h2 class="text-text-primary font-bold text-lg">Tarefas completadas</h2>
+          <p class="text-text-secondary text-sm mb-2">66.7%</p>
+          <div class="w-full bg-dark-purple rounded-full h-2.5">
+            <div class="bg-light-purple h-2.5 rounded-full" style="width: 66.7%"></div>
+          </div>
         </div>
       </div>
-    </nav>
 
-    <div class="container">
-
-      <div class="card my-4">
-        <div class="row mx-2">
-          <div class="col-md-2 text-center">
-            <img src="{% static "img/lobo.png" %}" alt="Logo" class="img-thumbnail my-4">
-          </div>
-          <div class="col-md-10 text-center my-4">
-            <h1 class="mb-5">Tarefas completadas</h1>
-            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: 50%"></div>
-            </div>
-          </div>
+      <div class="flex space-x-3 mb-8">
+        <button class="bg-light-purple text-dark-purple px-4 py-1.5 rounded-full text-sm font-semibold">Todos</button>
+        <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Estudos</button>
+        <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Trabalho</button>
+        <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Esportes</button>
       </div>
-    
-      <div class="my-4">
-        <h3 class="my-4">Tarefas pendentes</h3>
-        <ul class="list-group">
+
+      <div class="mb-8">
+        <h3 class="text-text-primary text-xl font-bold mb-4">Atividades pendentes</h3>
+        <ul class="space-y-3">
           {% for i in todos %}
             {% if i.status == False %}
-              <li class="list-group-item">
-                <div class="card">
-                  <div class="row align-items-center">
-                    <div class="col-md-2">
-                      <button type="button" class="btn btn-dark">Dark</button>
-                    </div>
-                    <div class="col-md-8">
-                      <h1>{{i.todo_name}}</h1>
-                      <p class="card-text">08:00 - 16:00</p>
-                    </div>
-                    <div class="col-md-2">
-                      Pincell
-                    </div>
-                  </div>
+            <li class="bg-card-purple p-4 rounded-xl flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <div class="w-6 h-6 rounded-full border-2 border-text-secondary"></div>
+                <div>
+                  <h4 class="text-text-primary font-semibold">{{i.todo_name}}</h4>
+                  <p class="text-text-secondary text-xs">{{ i.start_time|default:"08:00" }} - {{ i.end_time|default:"16:00" }}</p>
                 </div>
-              </li>
+              </div>
+              <button class="text-light-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+            </li>
             {% endif %}
-          {% endfor %}   
+          {% endfor %}
         </ul>
+      </div>
 
-        <h3 class="my-4">Tarefas concluídas</h3>
-        <ul class="list-group">
+      <div class="mb-8">
+        <h3 class="text-text-primary text-xl font-bold mb-4">Atividades concluídas</h3>
+        <ul class="space-y-3">
           {% for i in todos %}
             {% if i.status == True %}
-              <li class="list-group-item">
-                <div class="card">
-                  <div class="row align-items-center">
-                    <div class="col-md-2">
-                      <button type="button" class="btn btn-dark">Dark</button>
-                    </div>
-                    <div class="col-md-8">
-                      <h1>{{i.todo_name}}</h1>
-                      <p class="card-text">08:00 - 16:00</p>
-                    </div>
-                    <div class="col-md-2">
-                      Pincell
-                    </div>
-                  </div>
+            <li class="bg-card-purple p-4 rounded-xl flex items-center justify-between opacity-60">
+              <div class="flex items-center space-x-4">
+                <div class="w-6 h-6 rounded-full border-2 border-light-purple bg-light-purple flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-dark-purple" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
                 </div>
-              </li>
+                <div>
+                  <h4 class="text-text-primary font-semibold line-through">{{i.todo_name}}</h4>
+                  <p class="text-text-secondary text-xs">{{ i.start_time|default:"08:00" }} - {{ i.end_time|default:"16:00" }}</p>
+                </div>
+              </div>
+              <button class="text-light-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+            </li>
             {% endif %}
-          {% endfor %}  
+          {% endfor %}
         </ul>
-
       </div>
-    
-    </div>
 
-    <section class="vh-100" style="background-color: #eee;">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-lg-9 col-xl-7">
-          <div class="card rounded-3">
-            <div class="card-body p-4">
-  
-              <h4 class="text-center my-3 pb-3">2DO</h4>
-  
-              <form method="POST" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
-                {% csrf_token %}
-                <div class="col-12">
-                  <div class="form-outline">
-                    <input type="text" id="form1" class="form-control" name="task" placeholder="Digite a tarefa aqui"/>
-                  </div>
-                </div>
-  
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Adicionar Trefa</button>
-                </div>
-              </form>
-              <a href="{% url 'logout' %}"><button style="background: firebrick; color: white;" type="submit" class="btn btn-primary">Sair</button></a>
-              <table class="table mb-4">
-                <thead>
-                  <tr>
-                    <th scope="col">Tarefa</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-              </table>
-  
-            </div>
+      <div class="bg-card-purple p-6 rounded-xl shadow-lg mt-10">
+        <h4 class="text-center text-xl font-bold text-text-primary mb-6">Nova tarefa</h4>
+
+        <form method="POST" class="space-y-4">
+          {% csrf_token %}
+          <div>
+            <label for="form1" class="block text-sm font-medium text-text-secondary mb-1">Nome</label>
+            <input type="text" id="form1" class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple" name="task" placeholder="Digite a tarefa aqui"/>
           </div>
-        </div>
+          <div>
+              <label for="description" class="block text-sm font-medium text-text-secondary mb-1">Descrição</label>
+              <textarea id="description" rows="3" class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple" name="description" placeholder="Adicione uma descrição..."></textarea>
+          </div>
+          <div class="flex justify-end space-x-3 pt-4">
+              <button type="button" class="px-6 py-2 rounded-lg text-sm font-semibold text-text-secondary">Cancelar</button>
+              <button type="submit" class="bg-light-purple px-6 py-2 rounded-lg text-sm font-bold text-dark-purple">Concluir</button>
+          </div>
+          <a href="{% url 'logout' %}" class="block text-center text-red-400 hover:text-red-300 pt-4">Sair</a>
+        </form>
       </div>
     </div>
-  </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
