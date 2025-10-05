@@ -1,0 +1,173 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="media/favicon.ico" type="image/x-icon">
+    <title>Suas tarefas - 2DO</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Paleta de Cores do Figma
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'dark-purple': '#2C2A4A',      
+              'card-purple': '#4F467B',      
+              'light-purple': '#BEAEE2',     
+              'input-purple': '#E1D4E3',     
+              'text-primary': '#FFFFFF',     
+              'text-secondary': '#D1C4E9',  
+              'text-input': '#2C2A4A',       
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  </head>
+  <body class="bg-dark-purple font-sans antialiased">
+
+    <div class="container mx-auto px-4 py-6">
+
+      <header class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-text-primary font-bold text-2xl">{{ month }}, {{ day }}</h1>
+        </div>
+          
+          <form method="GET" action="" class="flex items-center space-x-2">
+            <input type="text" name="search" placeholder="Buscar..." value="{{ request.GET.search }}" class="bg-card-purple text-text-primary text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-light-purple placeholder-text-secondary hidden md:block">
+            <button type="submit" class="text-text-primary hover:text-light-purple transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </form>
+
+          <div class="flex items-center space-x-4">
+          <button class="text-text-primary">
+            <a href="{% url 'new' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </a>
+          </button>
+            
+          <button class="text-text-primary">
+              <a href="{% url 'logout' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>
+              </a>
+          </button>
+        </div>
+      </header>
+
+      <div class="bg-card-purple p-5 rounded-xl shadow-lg flex items-center space-x-4 mb-8">
+        <div class="flex-shrink-0">
+          <img src="media/Logo.png" alt="Logo" class="w-16 h-16">
+        </div>
+        <div class="w-full">
+          <h2 class="text-text-primary font-bold text-lg">Tarefas completadas</h2>
+          <p class="text-text-secondary text-sm mb-2">
+            {{ percentage }}%
+          </p>
+          <div class="w-full bg-dark-purple rounded-full h-2.5">
+            <div class="bg-light-purple h-2.5 rounded-full" style="--width: {{ percentage }}%"></div> <!-- {{ percentage }} -->
+          </div>
+        </div>
+      </div>
+
+      <div class="flex space-x-3 mb-8">
+        <a href="?category=">
+          <button class="bg-light-purple text-dark-purple px-4 py-1.5 rounded-full text-sm font-semibold">Todos</button>
+        </a>
+        <a href="?category=Estudos">
+          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Estudos</button>
+        </a>
+        <a href="?category=Trabalho">
+          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Trabalho</button>
+        </a>
+        <a href="?category=Esportes">
+          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Esportes</button>
+        </a>
+        <a href="?category=Lazer">
+          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Lazer</button>
+        </a>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="text-text-primary text-xl font-bold mb-4">Atividades pendentes</h3>
+        <ul class="space-y-3">
+          {% for i in tasks %}
+            {% if i.status == False %}
+            <li class="bg-card-purple p-4 rounded-xl flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <form method="POST" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name="task_id" value="{{ i.id }}">
+                  <button type="submit" class="w-6 h-6 rounded-full border-2 border-text-secondary"></button>
+                </form>
+                <div>
+                  <h4 class="text-text-primary font-semibold">{{i.name}}</h4>
+                  <p class="text-text-secondary text-xs">{{ i.init_hour }} - {{ i.end_hour }}</p>
+                </div>
+              </div>
+              <button class="text-light-purple">
+                <a href="{% url 'update' i.id %}">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                  </svg>
+                </a>
+              </button>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="text-text-primary text-xl font-bold mb-4">Atividades concluídas</h3>
+        <ul class="space-y-3">
+          {% for i in tasks %}
+            {% if i.status == True %}
+            <li class="bg-card-purple p-4 rounded-xl flex items-center justify-between opacity-60">
+              <div class="flex items-center space-x-4">
+                <form method="POST" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name="task_id" value="{{ i.id }}">
+                  <button type="submit" class="w-6 h-6 rounded-full border-2 border-light-purple bg-light-purple flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-dark-purple" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                  </button>
+                </form>
+                <div>
+                  <h4 class="text-text-primary font-semibold line-through">{{i.name}}</h4>
+                  <p class="text-text-secondary text-xs">{{ i.init_hour }} - {{ i.end_hour }}</p>
+                </div>
+              </div>
+              <button class="text-light-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <a href="{% url 'update' i.id %}">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                  </a>
+                </svg>
+              </button>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
