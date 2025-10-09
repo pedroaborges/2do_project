@@ -137,5 +137,5 @@ class TasksUpdateView(UpdateView): # Update View (PUT)
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class TasksDeleteView(DeleteView): # Delete View (DELETE)
     model = Task
-    template_name = ''
+    template_name = 'deleteTask.html'
     success_url = '/'

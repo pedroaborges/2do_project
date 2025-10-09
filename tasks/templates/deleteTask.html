@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}Deletar tarefa - 2DO{% endblock %}
+
+{% block 'body' %}
+  <body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
+      <div class="bg-card-purple p-6 rounded-xl shadow-lg mt-10">
+        <form method="POST" class="space-y-4" action="{% url 'delete' task.id %}">
+            {% csrf_token %}
+        <label class="block text-sm font-medium text-text-secondary mb-1">Você realmente deseja deletar a tarefa {{ task.name }}?</label>
+
+        <a href="{% url 'home' %}">
+            <button type="button" class="px-6 py-2 rounded-lg text-sm font-semibold text-text-secondary hover:text-light-purple transition">
+              Cancelar
+            </button>
+          </a>
+
+        <button type="submit" class="bg-red-500 px-6 py-2 rounded-lg text-sm font-bold text-red-300 hover:bg-[#d4c3f3] transition">
+          Deletar
+        </button>
+      </div>
+          </form>
+        </div>
+  </body>
+{% endblock %}

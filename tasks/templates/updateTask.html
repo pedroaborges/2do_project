@@ -84,6 +84,12 @@
             </button>
           </a>
 
+          <a href="{% url 'delete' task.id %}">
+            <button type="button" class="bg-red-500 px-6 py-2 rounded-lg text-sm font-bold text-red-300 hover:bg-[#d4c3f3] transition">
+              Deletar
+            </button>
+          </a>
+
           <button type="submit" class="bg-light-purple px-6 py-2 rounded-lg text-sm font-bold text-dark-purple hover:bg-[#d4c3f3] transition">
             Salvar
           </button>

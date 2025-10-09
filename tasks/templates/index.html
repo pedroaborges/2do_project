@@ -57,20 +57,20 @@
       </div>
 
       <div class="flex space-x-3 mb-8">
-        <a href="?category=">
-          <button class="bg-light-purple text-dark-purple px-4 py-1.5 rounded-full text-sm font-semibold">Todos</button>
+        <a href="/">
+          <button class="{% if request.GET.category == '' or request.GET %}bg-transparent border border-card-purple text-text-secondary{% else %}bg-light-purple text-dark-purple{% endif %} px-4 py-1.5 rounded-full text-sm font-semibold transition">Todos</button>
         </a>
         <a href="?category=Estudos">
-          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Estudos</button>
+          <button class="{% if not request.GET.category == 'Estudos' %}bg-transparent border border-card-purple text-text-secondary{% else %}bg-light-purple text-dark-purple{% endif %} px-4 py-1.5 rounded-full text-sm font-semibold transition">Estudos</button>
         </a>
         <a href="?category=Trabalho">
-          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Trabalho</button>
+          <button class="{% if not request.GET.category == 'Trabalho' %}bg-transparent border border-card-purple text-text-secondary{% else %}bg-light-purple text-dark-purple{% endif %} px-4 py-1.5 rounded-full text-sm font-semibold transition">Trabalho</button>
         </a>
         <a href="?category=Esportes">
-          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Esportes</button>
+          <button class="{% if not request.GET.category == 'Esportes' %}bg-transparent border border-card-purple text-text-secondary{% else %}bg-light-purple text-dark-purple{% endif %} px-4 py-1.5 rounded-full text-sm font-semibold transition">Esportes</button>
         </a>
         <a href="?category=Lazer">
-          <button class="bg-transparent border border-card-purple text-text-secondary px-4 py-1.5 rounded-full text-sm font-semibold">Lazer</button>
+          <button class="{% if not request.GET.category == 'Lazer' %}bg-transparent border border-card-purple text-text-secondary{% else %}bg-light-purple text-dark-purple{% endif %} px-4 py-1.5 rounded-full text-sm font-semibold transition">Lazer</button>
         </a>
       </div>
 
