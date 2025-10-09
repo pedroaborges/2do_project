@@ -1,76 +1,47 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar tarefa - 2DO</title>
+{% extends 'base.html' %}
+{% load static %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      // Paleta de Cores
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'dark-purple': '#2C2A4A',     
-              'card-purple': '#4F467B',     
-              'light-purple': '#BEAEE2',    
-              'input-purple': '#E1D4E3',     
-              'text-primary': '#FFFFFF',     
-              'text-secondary': '#D1C4E9',   
-              'text-input': '#2C2A4A',       
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            }
-          }
-        }
-      }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{% block 'title' %}Criar tarefa - 2DO{% endblock %}
 
-</head>
-<body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
-    <div class="bg-card-purple p-6 rounded-xl shadow-lg mt-10">
-        <h4 class="text-center text-xl font-bold text-text-primary mb-6">Nova tarefa</h4>
+{% block 'body' %}
+  <body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
+      <div class="bg-card-purple p-6 rounded-xl shadow-lg mt-10">
+          <h4 class="text-center text-xl font-bold text-text-primary mb-6">Nova tarefa</h4>
 
-        <form method="POST" class="space-y-4">
-          {% csrf_token %}
-          <div>
-            <label for="name" class="block text-sm font-medium text-text-secondary mb-1">Nome</label>
-            <input type="text" id="name" class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple" name="name" placeholder="Digite a tarefa aqui" value="{{ form.name.value|default_if_none:'' }}"/>
-          </div>
-          <div>
-              <label for="description" class="block text-sm font-medium text-text-secondary mb-1">Descrição</label>
-              <textarea id="description" rows="3" class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple" name="description" placeholder="Adicione uma descrição..." {{ form.description.value|default_if_none:'' }}></textarea>
-          </div>
-          <div>
-              <label for="category" class="block text-sm font-medium text-text-secondary mb-1">Categoria</label>
-              <select id="category" name="category">
-                <option value="Estudos">Estudos</option>
-                <option value="Trabalho">Trabalho</option>
-                <option value="Esportes">Esportes</option>
-                <option value="Lazer">Lazer</option>
-              </select>
-          </div>
-          <div>
-              <label for="init_hour" class="block text-sm font-medium text-text-secondary mb-1">Hora de início</label>
-              <input type="time" id="init_hour" name="init_hour" class="bg-card-purple text-white p-2 rounded-lg border-none">
-          </div>
-          <div>
-              <label for="end_hour" class="block text-sm font-medium text-text-secondary mb-1">Hora de término</label>
-              <input type="time" id="end_hour" name="end_hour" class="bg-card-purple text-white p-2 rounded-lg border-none">
-          </div>
-          <div class="flex justify-end space-x-3 pt-4">
-              <a href="{% url 'home' %}">
-                <button type="button" class="px-6 py-2 rounded-lg text-sm font-semibold text-text-secondary">Cancelar</button>
-              </a>
-              
-              <button type="submit" class="bg-light-purple px-6 py-2 rounded-lg text-sm font-bold text-dark-purple">Concluir</button>
-          </div>
-        </form>
-      </div>
-</body>
-</html>
+          <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div>
+    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-1">Nome</label>
+    {{ form.name }}
+  </div>
+
+  <div>
+    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-1">Descrição</label>
+    {{ form.description }}
+  </div>
+
+  <div>
+    <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-1">Categoria</label>
+    {{ form.category }}
+  </div>
+
+  <div>
+    <label for="{{ form.init_hour.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-1">Hora de início</label>
+    {{ form.init_hour }}
+  </div>
+
+  <div>
+    <label for="{{ form.end_hour.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-1">Hora de término</label>
+    {{ form.end_hour }}
+  </div>
+            <div class="flex justify-end space-x-3 pt-4">
+                <a href="{% url 'home' %}">
+                  <button type="button" class="px-6 py-2 rounded-lg text-sm font-semibold text-text-secondary">Cancelar</button>
+                </a>
+                
+                <button type="submit" class="bg-light-purple px-6 py-2 rounded-lg text-sm font-bold text-dark-purple">Concluir</button>
+            </div>
+          </form>
+        </div>
+  </body>
+{% endblock %}

@@ -1,87 +1,59 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar - 2DO</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'dark-purple': '#2C2A4A',     
-              'card-purple': '#4F467B',     
-              'light-purple': '#BEAEE2',    
-              'input-purple': '#E1D4E3',    
-              'text-primary': '#FFFFFF',     
-              'text-secondary': '#D1C4E9',  
-              'text-input': '#2C2A4A',      
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            }
-          }
-        }
-      }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{% block 'title' %}Cadastrar - 2DO{% endblock %}
 
-</head>
-<body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
+{% block 'body' %}
+  <body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
 
-  <div class="w-full max-w-sm">
-    <img src="media/Logo.png" alt="Logo" class="mx-auto h-24 w-auto mb-8">
+    <div class="w-full max-w-sm">
+      <img src="{%static 'Logo.png'%}" alt="Logo" class="mx-auto h-24 w-auto mb-8">
 
-    <h2 class="text-center text-3xl font-bold tracking-tight text-text-primary mb-4">
-      Registrar
-    </h2>
+      <h2 class="text-center text-3xl font-bold tracking-tight text-text-primary mb-4">
+        Registrar
+      </h2>
 
-    {% if messages %}
-      <div class="bg-red-500/20 text-red-300 text-center p-3 rounded-lg mb-6 text-sm">
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
+      {% if messages %}
+        <div class="bg-red-500/20 text-red-300 text-center p-3 rounded-lg mb-6 text-sm">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="POST" class="space-y-6">
+        {% csrf_token %}
+        
+        <div>
+          <input type="text" placeholder="Nome de usuário" required name="username"
+                class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
+        </div>
+
+        <div>
+          <input type="email" placeholder="Email" required name="email"
+                class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
+        </div>
+
+        <div>
+          <input type="password" placeholder="Senha" required name="password"
+                class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
+        </div>
+        
+        <div>
+          <button type="submit"
+                  class="w-full bg-light-purple text-dark-purple font-bold py-3 px-4 rounded-lg hover:opacity-90 transition">
+            Registrar
+          </button>
+        </div>
+      </form>
+
+      <div class="text-center mt-6">
+        <p class="text-sm text-text-secondary">
+          Já tem uma conta?
+          <a href="{% url 'login' %}" class="font-semibold text-light-purple hover:text-white transition">Login</a>
+        </p>
       </div>
-    {% endif %}
-
-    <form method="POST" class="space-y-6">
-      {% csrf_token %}
-      
-      <div>
-        <input type="text" placeholder="Nome de usuário" required name="username"
-               class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
-      </div>
-
-      <div>
-        <input type="email" placeholder="Email" required name="email"
-               class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
-      </div>
-
-      <div>
-        <input type="password" placeholder="Senha" required name="password"
-               class="w-full bg-input-purple text-text-input placeholder:text-text-input/60 rounded-lg p-3 border-0 focus:ring-2 focus:ring-light-purple transition">
-      </div>
-      
-      <div>
-        <button type="submit"
-                class="w-full bg-light-purple text-dark-purple font-bold py-3 px-4 rounded-lg hover:opacity-90 transition">
-          Registrar
-        </button>
-      </div>
-    </form>
-
-    <div class="text-center mt-6">
-      <p class="text-sm text-text-secondary">
-        Já tem uma conta?
-        <a href="{% url 'login' %}" class="font-semibold text-light-purple hover:text-white transition">Login</a>
-      </p>
     </div>
-  </div>
 
-</body>
-</html>
+  </body>
+{% endblock %}

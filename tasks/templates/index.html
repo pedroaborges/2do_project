@@ -1,40 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!doctype html>
-<html lang="pt-br">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="media/favicon.ico" type="image/x-icon">
-    <title>Suas tarefas - 2DO</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      // Paleta de Cores do Figma
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'dark-purple': '#2C2A4A',      
-              'card-purple': '#4F467B',      
-              'light-purple': '#BEAEE2',     
-              'input-purple': '#E1D4E3',     
-              'text-primary': '#FFFFFF',     
-              'text-secondary': '#D1C4E9',  
-              'text-input': '#2C2A4A',       
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            }
-          }
-        }
-      }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{% block 'title' %}Suas tarefas - 2DO{% endblock %}
 
-  </head>
+{% block 'body' %}
   <body class="bg-dark-purple font-sans antialiased">
 
     <div class="container mx-auto px-4 py-6">
@@ -74,15 +43,15 @@
 
       <div class="bg-card-purple p-5 rounded-xl shadow-lg flex items-center space-x-4 mb-8">
         <div class="flex-shrink-0">
-          <img src="media/Logo.png" alt="Logo" class="w-16 h-16">
+          <img src="{% static 'Logo.png' %}" alt="Logo" class="w-16 h-16">
         </div>
         <div class="w-full">
           <h2 class="text-text-primary font-bold text-lg">Tarefas completadas</h2>
           <p class="text-text-secondary text-sm mb-2">
-            {{ percentage }}%
+            {{ percentage|floatformat:0 }}%
           </p>
           <div class="w-full bg-dark-purple rounded-full h-2.5">
-            <div class="bg-light-purple h-2.5 rounded-full" style="--width: {{ percentage }}%"></div> <!-- {{ percentage }} -->
+            <div class="bg-light-purple h-2.5 rounded-full" style="width: {{ percentage|floatformat:0 }}%"></div> <!-- {{ percentage }} -->
           </div>
         </div>
       </div>
@@ -170,4 +139,4 @@
       </div>
     </div>
   </body>
-</html>
+{% endblock %}

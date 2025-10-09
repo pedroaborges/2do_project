@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{%static 'favicon.ico'%}" type="image/x-icon">
+    <title>{% block 'title' %} {% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Paleta de Cores
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'dark-purple': '#2C2A4A',     
+              'card-purple': '#4F467B',     
+              'light-purple': '#BEAEE2',    
+              'input-purple': '#E1D4E3',     
+              'text-primary': '#FFFFFF',     
+              'text-secondary': '#D1C4E9',   
+              'text-input': '#2C2A4A',       
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+{% block 'body' %} {% endblock %}
+
+</html>
