@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %}Atualizar tarefa - 2DO{% endblock %}
+
+{% block 'body' %}
+  <body class="bg-dark-purple font-sans flex items-center justify-center min-h-screen p-4">
+    <div class="bg-card-purple p-6 rounded-xl shadow-lg mt-10 w-full max-w-md">
+      <h4 class="text-center text-xl font-bold text-text-primary mb-6">Visualizar tarefa</h4>
+
+        <!-- Nome -->
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Nome</label>
+          <label class="w-full rounded-lg px-3 py-2 bg-input-purple text-text-input placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-light-purple">
+            {{ task.name }}
+          </label>
+        </div>
+
+        <!-- Descrição -->
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Descrição</label>
+          <label class="w-full rounded-lg px-3 py-2 bg-input-purple text-text-input placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-light-purple">
+            {{ task.description }}
+          </label>
+        </div>
+
+        <!-- Categoria -->
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Categoria</label>
+          <label class="w-full rounded-lg px-3 py-2 bg-input-purple text-text-input placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-light-purple">
+            {{ task.category }}
+          </label>
+        </div>
+
+        <!-- Hora de início -->
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Hora de início</label>
+          <label class="w-full rounded-lg px-3 py-2 bg-input-purple text-text-input focus:outline-none focus:ring-2 focus:ring-light-purple">
+            {{ task.init_hour|time:'H:i' }}
+          </label>
+        </div>
+
+        <!-- Hora de término -->
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Hora de término</label>
+          <label class="w-full rounded-lg px-3 py-2 bg-input-purple text-text-input focus:outline-none focus:ring-2 focus:ring-light-purple">
+            {{ task.end_hour|time:'H:i' }}
+          </label>
+        </div>
+
+        <div class="flex justify-end space-x-3 pt-4">
+          <a href="{% url 'home' %}">
+            <button type="button" class="px-6 py-2 rounded-lg text-sm font-semibold text-text-secondary hover:text-light-purple transition">
+              Voltar
+            </button>
+          </a>
+        </div>
+    </div>
+  </body>
+{% endblock %}

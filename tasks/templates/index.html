@@ -87,7 +87,9 @@
                   <button type="submit" class="w-6 h-6 rounded-full border-2 border-text-secondary"></button>
                 </form>
                 <div>
-                  <h4 class="text-text-primary font-semibold">{{i.name}}</h4>
+                  <a href="{% url 'detail' i.id %}">
+                      <h4 class="text-text-primary font-semibold">{{i.name}}</h4>
+                  </a>
                   <p class="text-text-secondary text-xs">{{ i.init_hour }} - {{ i.end_hour }}</p>
                 </div>
               </div>

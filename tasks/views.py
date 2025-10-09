@@ -124,7 +124,7 @@ class TasksCreateView(CreateView): # Create View (POST)
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class TasksDetailView(DetailView): # Detail View (RETRIEVE)
     model = Task
-    template_name = 'index.html'
+    template_name = 'detailTask.html'
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class TasksUpdateView(UpdateView): # Update View (PUT)
