@@ -10,6 +10,9 @@ from django.views import View
 from datetime import datetime
 from .forms import TaskForm
 from .models import Task
+from django_celery_beat.models import ClockedSchedule, PeriodicTask
+from datetime import datetime, date, time
+import json
 
 class RegisterView(View):
     def get(self, request):
@@ -119,7 +122,25 @@ class TasksCreateView(CreateView): # Create View (POST)
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super().form_valid(form)
+        
+        response = super().form_valid(form)
+
+        obj = form.instance
+
+        dateT_end = datetime.combine(date.today(), obj.end_hour)
+        id_task = obj.id
+
+        clocked_end, _ = ClockedSchedule.objects.get_or_create(clocked_time=dateT_end)
+
+        task_end = PeriodicTask.objects.create(
+            clocked=clocked_end,
+            one_off=True,
+            name=f"deactive task {id_task}",
+            task='tasks.tasks.deactive_task',
+            args=json.dumps([id_task])
+        )
+
+        return response
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class TasksDetailView(DetailView): # Detail View (RETRIEVE)
