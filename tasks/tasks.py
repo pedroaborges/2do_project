@@ -8,6 +8,6 @@ def deactive_task(id_task):
     task.save()
 
 @shared_task
-def delete_task():
+def delete_tasks():
     task = Task.objects.all()
     task.delete()
