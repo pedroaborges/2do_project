@@ -10,8 +10,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-wm+f9-7z4pbe#ez)#d11oyyjsz42cw@)trfme#k3mll3-buzbl'
 
 DEBUG = True
+ALLOWED_HOSTS = ['divinebanana.dev', 'www.divinebanana.dev', 'localhost']
 
-ALLOWED_HOSTS = ['*']
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_TRUSTED_ORIGINS = [
     'https://62c9c2461d45.ngrok-free.app',
