@@ -26,10 +26,14 @@ class VerificarEmailView(View):
         verification = get_object_or_404(EmailVerification, token=token)
 
         if verification.is_expired():
-            return HttpResponse("Este link de verificação expirou.", status=400)
+            return render(request, "email_message.html", {
+                'message': "Este link de verificação expirou."
+            })
 
         if verification.is_verified:
-            return HttpResponse("Este e-mail já foi verificado.", status=400)
+            return render(request, "email_message.html", {
+                'message': "Este e-mail já foi verificado."
+            })
 
         verification.is_verified = True
         user = User.objects.get(username=verification.user)
@@ -37,7 +41,9 @@ class VerificarEmailView(View):
         user.save()
         verification.save()
 
-        return HttpResponse("E-mail verificado com sucesso!")
+        return render(request, "email_message.html", {
+                'message': "E-mail verificado com sucesso!"
+            })
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class EnviarEmailView(View):
@@ -47,7 +53,9 @@ class EnviarEmailView(View):
         user = request.user
 
         if User.objects.filter(email=email):
-            return HttpResponse("E-mail ja cadastrado.")
+            return render(request, "email_message.html", {
+                'message': "E-mail ja cadastrado."
+            })
 
         token = EmailVerification.generate_token()
 
@@ -68,7 +76,9 @@ class EnviarEmailView(View):
 
         send_async_email(subject, message, [email])
 
-        return HttpResponse("E-mail de verificação enviado.")
+        return render(request, "email_message.html", {
+            'message': "E-mail de verificação enviado."
+        })
 
     def get(self, request):
         return render(request, 'enviar_email_verificacao.html')
