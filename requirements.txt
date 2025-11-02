@@ -10,6 +10,7 @@ colorama==0.4.6
 cron_descriptor==2.0.6
 Django==5.2.7
 django-celery-beat==2.8.1
+django-environ==0.12.0
 django-timezone-field==7.1
 kombu==5.5.4
 packaging==25.0

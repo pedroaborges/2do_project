@@ -34,6 +34,11 @@
     <label for="{{ form.end_hour.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-1">Hora de término</label>
     {{ form.end_hour }}
   </div>
+  <div>
+    {% for error in form.end_hour.errors %}
+      <p class="bg-red-500/20 text-red-300 text-center p-3 rounded-lg mb-6 text-sm">{{error}}</p>
+    {% endfor %}
+  </div>
             <div class="flex justify-end space-x-3 pt-4">
                 <a href="{% url 'home' %}">
                   <button type="button" class="px-6 py-2 rounded-lg text-sm font-semibold text-text-secondary">Cancelar</button>

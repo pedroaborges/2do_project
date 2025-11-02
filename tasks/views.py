@@ -11,8 +11,67 @@ from datetime import datetime
 from .forms import TaskForm
 from .models import Task
 from django_celery_beat.models import ClockedSchedule, PeriodicTask
-from datetime import datetime, date, time
+from datetime import datetime, date
 import json
+from django.http import HttpResponse
+from .models import EmailVerification
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from .tasks import send_async_email
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class VerificarEmailView(View):
+    def get(self, request, token):
+        
+        verification = get_object_or_404(EmailVerification, token=token)
+
+        if verification.is_expired():
+            return HttpResponse("Este link de verificação expirou.", status=400)
+
+        if verification.is_verified:
+            return HttpResponse("Este e-mail já foi verificado.", status=400)
+
+        verification.is_verified = True
+        user = User.objects.get(username=verification.user)
+        user.email = verification.temp_email
+        user.save()
+        verification.save()
+
+        return HttpResponse("E-mail verificado com sucesso!")
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class EnviarEmailView(View):
+    def post(self, request):
+        email = request.POST.get('email')
+
+        user = request.user
+
+        if User.objects.filter(email=email):
+            return HttpResponse("E-mail ja cadastrado.")
+
+        token = EmailVerification.generate_token()
+
+        verification, created = EmailVerification.objects.get_or_create(user=user)
+        verification.temp_email = email
+        verification.token = token
+        verification.is_verified = False
+        verification.save()
+
+        current_site = get_current_site(request)
+        verification_url = f"https://62c9c2461d45.ngrok-free.app/verify-email/{token}/"
+
+        subject = 'Verifique seu e-mail'
+        message = render_to_string('email_verification.html', {
+            'user': user,
+            'verification_url': verification_url,
+        })
+
+        send_async_email(subject, message, [email])
+
+        return HttpResponse("E-mail de verificação enviado.")
+
+    def get(self, request):
+        return render(request, 'enviar_email_verificacao.html')
 
 class RegisterView(View):
     def get(self, request):
@@ -21,19 +80,20 @@ class RegisterView(View):
     def post(self, request):
         try:
             username = request.POST.get('username')
-            email = request.POST.get('email')
             password = request.POST.get('password')
 
             if User.objects.filter(username=username): # verifies if the username already exists
-                raise
+                raise Exception('Nome de usuário existente!')
 
-            user = User.objects.create_user(username=username, email=email, password=password)
+            user = User.objects.create_user(username=username, password=password)
             user.save()
 
+            login(request, user)
+
             messages.success(request, 'Usuário cadastrado com sucesso!')
-            return redirect('login')
-        except:
-            messages.error(request, 'Nome de usuário existente!')
+            return redirect('enviar_email_verificacao')
+        except Exception as e:
+            messages.error(request, str(e))
             return redirect('register')
 
 class LoginView(View):
@@ -120,24 +180,25 @@ class TasksCreateView(CreateView): # Create View (POST)
     template_name = 'newTask.html'
     success_url = '/'
 
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+    
     def form_valid(self, form):
         form.instance.owner = self.request.user
         
         response = super().form_valid(form)
 
-        obj = form.instance
-
-        dateT_end = datetime.combine(date.today(), obj.end_hour)
-        id_task = obj.id
+        dateT_end = datetime.combine(date.today(), form.instance.end_hour)
 
         clocked_end, _ = ClockedSchedule.objects.get_or_create(clocked_time=dateT_end)
 
-        task_end = PeriodicTask.objects.create(
+        PeriodicTask.objects.create(
             clocked=clocked_end,
             one_off=True,
-            name=f"deactive task {id_task}",
+            name=f"deactive task {form.instance.id}",
+            description=form.instance.name,
             task='tasks.tasks.deactive_task',
-            args=json.dumps([id_task])
+            args=json.dumps([form.instance.id])
         )
 
         return response
