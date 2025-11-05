@@ -16,6 +16,7 @@ services:
     restart: always
   
   nginx:
+    container_name: nginx
     image: nginx:latest
     ports:
       - "80:80"
@@ -28,8 +29,8 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"   # Porta do broker
-      - "15672:15672" # Painel web de administração
+      - "5672:5672"
+      - "15672:15672"
     restart: always
 
   celery_worker:
