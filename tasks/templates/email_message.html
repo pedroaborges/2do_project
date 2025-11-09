@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title' %} 2DO notification {% endblock %}
+
+{% block 'body' %}
+
+<body>
+    <p>{{ message }}</p>
+    <button class="text-dark-purple"><a href="{% url 'home' %}">Inicio</a></button>
+</body>
+
+{% endblock %}
