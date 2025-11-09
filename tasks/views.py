@@ -66,7 +66,7 @@ class EnviarEmailView(View):
         verification.save()
 
         current_site = get_current_site(request)
-        verification_url = f"https://62c9c2461d45.ngrok-free.app/verify-email/{token}/"
+        verification_url = f"https://www.divinebanana.dev/verify-email/{token}/"
 
         subject = 'Verifique seu e-mail'
         message = render_to_string('email_verification.html', {

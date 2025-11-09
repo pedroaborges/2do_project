@@ -4,3 +4,4 @@ db.*
 **/__pycache__/
 db.sqlite3
 postgres_data
+staticfiles/

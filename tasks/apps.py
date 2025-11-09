@@ -13,7 +13,7 @@ def PeriodicTaskConfig(sender, **kwargs):
     clearday, _ = PeriodicTask.objects.get_or_create(
         name='clearday_everyday_task',
         task='tasks.tasks.delete_tasks',
-        start_time= timezone.make_aware(datetime.combine(date.today() + timedelta(days=1),time.fromisoformat('00:00')), timezone.get_current_timezone()),
+        start_time= timezone.localtime(timezone.make_aware(datetime.combine(date.today() + timedelta(days=1),time.fromisoformat('00:00')), timezone.get_current_timezone())),
         interval_id=interval.id,
         description='Clears all task logs at the end of the day'
     )
