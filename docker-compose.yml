@@ -13,17 +13,20 @@ services:
       - .env
     depends_on:
       - rabbitmq
+      - postgres
     restart: always
-  
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    ports:
-      - "80:80"
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - django
+      - .:/app
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   rabbitmq:
     image: rabbitmq:3-management

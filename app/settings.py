@@ -7,16 +7,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = 'django-insecure-wm+f9-7z4pbe#ez)#d11oyyjsz42cw@)trfme#k3mll3-buzbl'
+SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = True
-ALLOWED_HOSTS = ['divinebanana.dev', 'www.divinebanana.dev', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['divinebanana.dev', 'www.divinebanana.dev', 'localhost', '127.0.0.1', '72.60.57.74']
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://62c9c2461d45.ngrok-free.app',
+    'https://divinebanana.dev',
+    'https://www.divinebanana.dev',
     'http://localhost:8000',
 ]
 
@@ -64,8 +65,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
     }
 }
 

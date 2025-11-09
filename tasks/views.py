@@ -226,6 +226,11 @@ class TasksUpdateView(UpdateView): # Update View (PUT)
     context_object_name = 'task'
     success_url = '/'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = ['Trabalho', 'Esportes', 'Estudos', 'Lazer']
+        return context
+
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class TasksDeleteView(DeleteView): # Delete View (DELETE)
     model = Task
