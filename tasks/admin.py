@@ -8,5 +8,5 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(EmailVerification)
 class EmailVerificationAdmin(admin.ModelAdmin):
-    list_display = ('user','temp_email')
+    list_display = ('user', 'temp_email', 'token', 'is_verified')
     search_fields = ('user',)

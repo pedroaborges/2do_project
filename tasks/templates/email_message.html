@@ -5,9 +5,24 @@
 
 {% block 'body' %}
 
-<body>
-    <p>{{ message }}</p>
-    <button class="text-dark-purple"><a href="{% url 'home' %}">Inicio</a></button>
+<body class="bg-purple-950 min-h-screen flex items-center justify-center p-4 font-sans">
+
+    <div class="bg-purple-900 p-8 rounded-lg shadow-md w-full max-w-md text-center">
+
+        <p class="text-lg text-purple-100 mb-6">
+            {{ message }}
+        </p>
+
+        <a href="{% url 'home' %}" 
+           class="inline-block w-full bg-purple-600 hover:bg-purple-700 text-white 
+                  font-bold py-3 px-5 rounded-md no-underline shadow-lg
+                  transition-colors duration-200
+                  focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-900">
+            Início
+        </a>
+        
+    </div>
+
 </body>
 
 {% endblock %}

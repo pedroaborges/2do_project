@@ -13,9 +13,8 @@ from .models import Task
 from django_celery_beat.models import ClockedSchedule, PeriodicTask
 from datetime import datetime, date
 import json
-from django.http import HttpResponse
 from .models import EmailVerification
-from django.contrib.sites.shortcuts import get_current_site
+# from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from .tasks import send_async_email
 
@@ -59,13 +58,13 @@ class EnviarEmailView(View):
 
         token = EmailVerification.generate_token()
 
-        verification, created = EmailVerification.objects.get_or_create(user=user)
+        verification, _ = EmailVerification.objects.get_or_create(user=user)
         verification.temp_email = email
         verification.token = token
         verification.is_verified = False
         verification.save()
 
-        current_site = get_current_site(request)
+        # current_site = get_current_site(request)
         verification_url = f"https://www.divinebanana.dev/verify-email/{token}/"
 
         subject = 'Verifique seu e-mail'
@@ -100,7 +99,6 @@ class RegisterView(View):
 
             login(request, user)
 
-            messages.success(request, 'Usuário cadastrado com sucesso!')
             return redirect('enviar_email_verificacao')
         except Exception as e:
             messages.error(request, str(e))

@@ -1,11 +1,36 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% load static %}
 
-<body>
-    <p>Olá {{ user.username }},</p>
-    <p>Por favor, clique no link abaixo para verificar seu e-mail:</p>
-    <p><a href="{{ verification_url }}">Verificar E-mail</a></p>
-    <p>Se você não solicitou essa verificação, ignore este e-mail.</p>
+{% block 'title' %} 2DO notification {% endblock %}
+
+{% block 'body' %}
+
+<body class="bg-purple-950 min-h-screen flex items-center justify-center p-4 font-sans">
+
+    <div class="bg-purple-900 p-8 rounded-lg shadow-md w-full max-w-md text-left">
+
+        <p class="text-lg text-purple-100 mb-4">
+            Olá {{ user.username }},
+        </p>
+        
+        <p class="text-base text-purple-200 mb-6">
+            Por favor, clique no link abaixo para verificar seu e-mail:
+        </p>
+        
+        <a href="{{ verification_url }}" 
+           class="inline-block w-full text-center bg-purple-600 hover:bg-purple-700 text-white 
+                  font-bold py-3 px-5 rounded-md no-underline shadow-lg
+                  transition-colors duration-200 mb-6
+                  focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-900">
+            Verificar E-mail
+        </a>
+        
+        <p class="text-sm text-purple-400">
+            Se você não solicitou essa verificação, ignore este e-mail.
+        </p>
+        
+    </div>
+
 </body>
 
-</html>
+{% endblock %}
