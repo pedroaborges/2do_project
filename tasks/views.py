@@ -33,6 +33,11 @@ class VerificarEmailView(View):
             return render(request, "email_message.html", {
                 'message': "Este e-mail já foi verificado."
             })
+        
+        if User.objects.filter(email=verification.temp_email):
+            return render(request, "email_message.html", {
+                'message': "E-mail ja cadastrado."
+            })
 
         verification.is_verified = True
         user = User.objects.get(username=verification.user)
