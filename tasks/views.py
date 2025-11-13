@@ -58,8 +58,17 @@ class EnviarEmailView(View):
 
         if User.objects.filter(email=email):
             return render(request, "email_message.html", {
-                'message': "E-mail ja cadastrado."
+                'message': "E-mail já cadastrado."
             })
+        
+        existVerification = EmailVerification.objects.filter(temp_email=email).first()
+        if existVerification:
+            if existVerification.is_expired():
+                existVerification.delete()
+            else:
+                return render(request, "email_message.html", {
+                    'message': "E-mail já em verificação."
+                })
 
         token = EmailVerification.generate_token()
 
