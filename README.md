@@ -1,134 +1,104 @@
-# **🐍 DJANGO DOCUMENTATION 🐍**
+## 📝 Projeto: Fullstack To-Do List com Django
 
-## **What's Django and tools?**
+Este projeto é uma aplicação **To-Do List** completa (full-stack) desenvolvida usando o framework **Django** e implementando diversas tecnologias modernas para gerenciamento de tarefas e infraestrutura.
 
-### **• Web framework in Python (front-end and back-end)**
-### **• User Authentication**
-### **• Admin Panel**
-### **• ORM - Object-Relational Mapping (relational object data base)**
-### **• Templates (front-end)**
-### **• Security Systems (SQL injections, etc.)**
+-----
 
-##
+### ✨ Tecnologias e Recursos
 
-## **MVT Architecture**
+  * [cite\_start]**Backend:** Django (5.2.7) [cite: 1]
+  * [cite\_start]**Banco de Dados:** PostgreSQL (via `psycopg2-binary`) [cite: 1]
+  * [cite\_start]**Filas de Tarefas/Agendamento:** Celery (5.5.3) [cite: 1] [cite\_start]com `django-celery-beat` (2.8.1) [cite: 1]
+  * [cite\_start]**Servidor de Aplicação:** Gunicorn (23.0.0) [cite: 1]
+  * [cite\_start]**Outras Dependências:** Gerenciamento de arquivos de ambiente (`django-environ`), manipulação de fuso horário (`django-timezone-field`, `tzdata`), e mais (conforme listado em `requirements.txt`). [cite: 1]
+  * **Infraestrutura:** Docker e Docker Compose (para rodar a aplicação, PostgreSQL e Celery).
 
-### **1. Model: represents the project's data and how they are saved**
-### **2. View: contains the project's logic**
-### **3. Template: defines how the project will be displayed (HTML, CSS, etc.)**
+-----
 
-##
+### ⚙️ Pré-requisitos
 
-## **How to install and run a Django project**
+Para rodar o projeto localmente, você precisa ter instalado:
 
-### **1. Create virtual environment**
-`python -m venv venv`
+1.  **Docker** e **Docker Compose:** Essenciais para orquestrar a aplicação, banco de dados (PostgreSQL) e o Celery.
+2.  **Git:** Para clonar o repositório.
 
-### **2. Authorize activation command for Windows**
-`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+-----
 
-### **3. Activate virtual environment**
-`venv\Scripts\activate`
+### 🚀 Configuração e Execução
 
-### **4. Install Django in virtual environment**
-`pip install django`
+Siga os passos abaixo para configurar e iniciar a aplicação:
 
-### **5. Create Django Project**
-`django-admin startproject projectName`
+#### 1\. Clonar o Repositório
 
-### **6. Run development server**
-`python manage.py runserver`
+Abra seu terminal e clone o projeto:
 
-### **7. Create a super user**
-`python manage.py createsuperuser`
-
-##
-
-## **How to run Django project (server)**
-
-### Follow **2, 3 and 6** instructions.
-
-##
-
-## **How to test Django project**
-`python manage.py test`
-
-##
-
-## **Data base management**
-
-### **Migrations are files that contains instructions for data base changes.**
-
-### **1. Create migrations (detects the models changes - without apling it)**
-`python manage.py makemigrations`
-
-## **2. Aply the migrations (aplies the models changes)**
-`python manage.py migrate`
-
-### **3. Show a list of all migrations**
-`python manage.py showmigrations`
-
-##
-
-## **Apps**
-
-### **Independent module that implements a specific functionality of project.**
-
-### **Create an app into Django project**
-`python manage.py startapp appName`
-
-### **To register it go to `settings.py` and add it to `INSTALLED_APPS` dictionary**
-
-##
-
-## **Integrate AI**
-
-### **Install Gemini API Library in venv**
-`pip install -q -U google-genai`
-
-### **Usage**
-```python
-from google import genai
-
-client = genai.Client(
-   api_key="KEY"
-)
-
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents=prompt
-)
-
-return response.text
+```bash
+git clone <URL_DO_SEU_REPOSITORIO>
+cd <nome-do-diretorio-do-projeto>
 ```
 
-##
+#### 2\. Configurar Variáveis de Ambiente
 
-## **Dependencies**
+O projeto requer um arquivo `.env` para armazenar configurações sensíveis, como segredos do Django e credenciais do banco de dados/Celery.
 
-### **To install all dependencies required**
-`pip install -r .\requiments.txt`
+1.  Crie um arquivo chamado `.env` na raiz do projeto.
+2.  Preencha-o com as variáveis necessárias. Um exemplo básico pode incluir:
 
-##
+<!-- end list -->
 
-## **How to use PostgreSQL**
+```env
+# Configurações do Django
+SECRET_KEY=<SUA_CHAVE_SECRETA_DO_DJANGO>
+DEBUG=True
 
-### **Install the PostgreeSQL library**
-`pip install psycopg2`
+# Configurações do Banco de Dados PostgreSQL (Docker)
+POSTGRES_DB=todolistdb
+POSTGRES_USER=todolistuser
+POSTGRES_PASSWORD=todolistpassword
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
 
-### **Configure the `settings.py` file**
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_name',
-        'USER': 'db_user (default: postgres)',
-        'PASSWORD': 'db_password',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
-}
+# URL do Banco de Dados para Django
+DATABASE_URL=postgres://todolistuser:todolistpassword@db:5432/todolistdb
+
+# Configurações do Broker do Celery (RabbitMQ ou Redis - ajuste o Docker Compose conforme necessário)
+CELERY_BROKER_URL=redis://redis:6379/0 # Exemplo com Redis
 ```
 
-### **After all, use the comand**
-`python manage.py migrate`
+> **Nota:** Certifique-se de que as configurações do banco de dados no `.env` correspondam aos volumes e nomes de serviço definidos no seu arquivo `docker-compose.yml`.
+
+#### 3\. Iniciar os Serviços com Docker Compose
+
+Use o Docker Compose para construir as imagens e iniciar todos os contêineres necessários (aplicação Django, PostgreSQL e Celery Worker/Beat).
+
+```bash
+docker-compose up --build
+```
+
+Este comando fará o seguinte:
+
+  * Construirá a imagem Docker da aplicação Django.
+  * Iniciará o contêiner do **PostgreSQL** (`db`).
+  * Iniciará o contêiner do **Celery Worker** (para executar tarefas assíncronas).
+  * Iniciará o contêiner do **Celery Beat** (para agendamento de tarefas recorrentes).
+  * Iniciará o contêiner da aplicação Django (usando Gunicorn) no porto configurado (geralmente **8000**).
+
+#### 4\. Acessar a Aplicação
+
+Após o Docker Compose iniciar todos os serviços, a aplicação estará acessível em seu navegador:
+
+🔗 **URL:** `http://localhost:8000`
+
+-----
+
+### 🛑 Parar a Aplicação
+
+Para parar todos os contêineres e liberar os recursos, execute:
+
+```bash
+docker-compose down
+```
+
+-----
+
+Posso te ajudar a gerar um arquivo `docker-compose.yml` de exemplo, se você precisar?
